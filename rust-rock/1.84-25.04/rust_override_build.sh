@@ -6,14 +6,14 @@ function main() {
     local slices=(
         cargo-1.84_cargo
         rustc-1.84_rustc
-        gcc-14-"$CRAFT_ARCH_TRIPLET_BUILD_FOR"_gcc-14
-        binutils-"$CRAFT_ARCH_TRIPLET_BUILD_FOR"_linker
+        gcc-14-"${CRAFT_ARCH_TRIPLET_BUILD_FOR//_/-}"_gcc-14
+        binutils-"${CRAFT_ARCH_TRIPLET_BUILD_FOR//_/-}"_linker
         libgcc-14-dev_libgcc
     )
     # we need cpp and as for gcc to be able to create executables
     slices+=(
-        cpp-14-"$CRAFT_ARCH_TRIPLET_BUILD_FOR"_cc1
-        binutils-"$CRAFT_ARCH_TRIPLET_BUILD_FOR"_assembler
+        cpp-14-"${CRAFT_ARCH_TRIPLET_BUILD_FOR//_/-}"_cc1
+        binutils-"${CRAFT_ARCH_TRIPLET_BUILD_FOR//_/-}"_assembler
     )
     # cargo needs ca-certificates to be able to download crates.io index
     slices+=(
