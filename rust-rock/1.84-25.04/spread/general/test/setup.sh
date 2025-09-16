@@ -1,19 +1,12 @@
 # Setup which mimics the spread environment
 # spellchecker: ignore rockcraft skopeo
 
-fatal() { echo "Error: $1" >&2; exit 1; }
+FILE_DIR=$(realpath "$(dirname "$0")")
 
-# Adapted from post by Richard Hansen:
-# https://stackoverflow.com/a/7287873/2531987
-# CC-BY-SA 3.0
-function defer() {
-    local defer_cmd="$1"; shift
-    _extract() { printf '%s\n' "$3"; }
-    for defer_name in "$@"; do
-        new_cmd="$(printf '%s\n' "${defer_cmd}"; eval "_extract $(trap -p "${defer_name}")")"
-        trap -- "$new_cmd" "$defer_name" || fatal "unable to modify trap ${defer_name}"
-    done
-}
+# shellcheck source=./defer.sh
+source "$FILE_DIR"/defer.sh
+
+fatal() { echo "Error: $1" >&2; exit 1; }
 
 # check FILE_DIR is set
 [[ -z "$FILE_DIR" ]] && fatal "FILE_DIR is not set"
@@ -48,7 +41,7 @@ cd "$FILE_DIR" || exit 1
 
 # use trap to echo a message on exit
 on_exit() {
-    case $? in
+    case $status in
         0) echo -e "\e[32mTest passed\e[0m: $0" ;;
         130) echo -e "\e[33mTest interrupted\e[0m: $0" ;;
         *) echo -e "\e[31mTest failed\e[0m: $0" ;;
