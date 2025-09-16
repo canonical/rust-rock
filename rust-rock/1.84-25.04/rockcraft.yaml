@@ -1,0 +1,18 @@
+# spellchecker: ignore rustc
+
+name: rust-rock
+base: bare
+build-base: ubuntu@24.04
+version: '1.84'
+summary: SDK rock for rust
+description: |
+    Software development kit rock for rust programming language. It includes
+    rustc, cargo and rust-std, as well as the gcc-14 compiler toolchain.
+platforms:
+    amd64:
+    arm64:
+
+parts:
+    rust:
+        plugin: nil
+        
