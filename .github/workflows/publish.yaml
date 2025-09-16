@@ -25,47 +25,9 @@ jobs:
           else
             echo 'arch-map={"amd64":["ubuntu-24.04"],"arm64":["ubuntu-24.04-arm"]}' >> $GITHUB_OUTPUT
           fi
-  
-  read-config:
-    runs-on: ubuntu-latest
-    outputs:
-      ghcr_upload: ${{ steps.read-config.outputs.ghcr_upload }}
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Read .github/ci.yaml with yq
-        id: read-config
-        run: |
-          value=$(yq '.ghcr.upload' .github/ci.yaml)
-          echo "ghcr_upload=${value}" >> $GITHUB_OUTPUT
-
-          
-  # Why do we need this duplicate job and reusable Build-Rock workflow?
-  # - the Build-Rock wf may need an an environment setup that relies on an internal action
-  #   - to call an internal action, the repo must also be internal/private
-  #     - but the OCI Factory is not internal/private, so that internal action cannot be called from there
-  build-internal:
-    needs: [get-runners, tag-rocks]
-    if: github.event.repository.visibility != 'public'
-    strategy:
-      matrix:
-        rock: ${{ fromJSON(needs.tag-rocks.outputs.json_result) }}
-    uses: canonical/oci-factory-internal/.github/workflows/Build-Rock.yaml@main
-    with:
-      rock-repo: ${{ github.repository }}
-      rock-repo-commit: ${{ github.ref }}
-      rockfile-directory: ${{ matrix.rock.location }}
-      oci-archive-name: ${{ matrix.rock.name }}_${{ matrix.rock.tag }}
-      arch-map: ${{ needs.get-runners.outputs.arch-map }}
-    secrets:
-      host-github-token: ${{ secrets.GITHUB_TOKEN }}
-      source-github-token: ${{ secrets.REPO_CLONER_TOKEN }}
-
 
   build:
     needs: [get-runners, tag-rocks]
-    if: github.event.repository.visibility == 'public'
     strategy:
       matrix:
         rock: ${{ fromJSON(needs.tag-rocks.outputs.json_result) }}
@@ -79,11 +41,7 @@ jobs:
       rockcraft-test: ${{ matrix.rock.test }}
 
   test:
-    needs: [tag-rocks, build, build-internal]
-    if: |
-      always() && needs.tag-rocks.result == 'success' &&
-      (needs.build-internal.result == 'success' && needs.build.result == 'skipped') ||
-      (needs.build-internal.result == 'skipped' && needs.build.result == 'success')
+    needs: [tag-rocks, build]
     strategy:
       matrix:
         rock: ${{ fromJSON(needs.tag-rocks.outputs.json_result) }}
@@ -94,11 +52,10 @@ jobs:
       host-github-token: ${{ secrets.GITHUB_TOKEN }}
 
   upload:
-    needs: [tag-rocks, test, read-config]
+    needs: [tag-rocks, test]
     if: |
       github.event_name == 'push' &&
-      github.ref == 'refs/heads/main' &&
-      needs.read-config.outputs.ghcr_upload == 'true'
+      github.ref == 'refs/heads/main'
     strategy:
       matrix:
         rock: ${{ fromJSON(needs.tag-rocks.outputs.json_result) }}
