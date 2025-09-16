@@ -6,17 +6,16 @@ build-base: ubuntu@24.04
 version: '1.84'
 summary: SDK rock for rust
 description: |
-    Software development kit rock for rust programming language. It includes
-    rustc, cargo and rust-std, as well as the gcc-14 compiler toolchain.
+  Software development kit rock for rust programming language. It includes
+  rustc, cargo and rust-std, as well as the gcc-14 compiler toolchain.
 platforms:
-    amd64:
-    arm64:
+  amd64:
+  arm64:
 
 parts:
-    rust:
-        plugin: nil
-        source: https://github.com/lczyk/chisel-releases.git
-        source-type: git
-        source-branch: ROCKS-2271/cargo-1.84-25.04
-        override-build: bash /root/project/rust_override_build.sh
-        
+  rust:
+    plugin: nil
+    source: https://github.com/lczyk/chisel-releases.git
+    source-type: git
+    source-branch: ROCKS-2271/cargo-1.84-25.04
+    override-build: bash /root/project/rust_override_build.sh

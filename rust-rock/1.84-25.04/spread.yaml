@@ -5,7 +5,7 @@ backends:
     type: craft
     systems:
       - ubuntu-24.04:
-      #- ubuntu-22.04:
+      # - ubuntu-22.04:
 
 suites:
   spread/general/:
@@ -23,7 +23,10 @@ suites:
       sudo apt remove --yes retry
 
       # Load the rock into docker
-      sudo rockcraft.skopeo --insecure-policy copy "oci-archive:$CRAFT_ARTIFACT" docker-daemon:rust-rock:latest
+      sudo rockcraft.skopeo \
+        --insecure-policy copy \
+        "oci-archive:$CRAFT_ARTIFACT" \
+        docker-daemon:rust-rock:latest
 
     restore: |
       docker image rm --force rust-rock:latest
