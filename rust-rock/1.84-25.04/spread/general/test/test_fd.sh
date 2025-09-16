@@ -25,10 +25,14 @@ docker create --name "$name" -v "$PWD"/testfiles/fd:/workdir rust-rock:latest > 
 docker start "$name" 2>/dev/null || true
 defer "docker rm --force $name &>/dev/null || true;" EXIT
 
+# Build
 docker exec --workdir /workdir "$name" cargo build --no-default-features
 
+# Run tests
+docker exec --workdir /workdir "$name" cargo test --no-default-features -- --show-output
+
 # # Run the built binary to verify it works
-help=$(docker exec -t "$name" /workdir/target/debug/fd --help)
+help=$(docker exec -t "$name" /workdir/target/debug/fd --help | head -n1)
 echo "$help" | grep -q "A program to find entries in your filesystem"
 version=$(docker exec -t "$name" /workdir/target/debug/fd --version)
 echo "$version" | grep -q "fd 10.3.0"
