@@ -1,0 +1,62 @@
+# Setup which mimics the spread environment
+# spellchecker: ignore rockcraft skopeo
+
+fatal() { echo "Error: $1" >&2; exit 1; }
+
+# Adapted from post by Richard Hansen:
+# https://stackoverflow.com/a/7287873/2531987
+# CC-BY-SA 3.0
+function defer() {
+    local defer_cmd="$1"; shift
+    _extract() { printf '%s\n' "$3"; }
+    for defer_name in "$@"; do
+        new_cmd="$(printf '%s\n' "${defer_cmd}"; eval "_extract $(trap -p "${defer_name}")")"
+        trap -- "$new_cmd" "$defer_name" || fatal "unable to modify trap ${defer_name}"
+    done
+}
+
+# check FILE_DIR is set
+[[ -z "$FILE_DIR" ]] && fatal "FILE_DIR is not set"
+
+# find PROJECT_PATH by walking up until you find rockcraft.yaml
+PROJECT_PATH=$(realpath "$FILE_DIR")
+# walk up until you find rockcraft.yaml
+while [[ ! -f "$PROJECT_PATH/rockcraft.yaml" ]]; do
+    PROJECT_PATH=$(dirname "$PROJECT_PATH")
+    [[ "$PROJECT_PATH" == "/" ]] && fatal "Could not find rockcraft.yaml"
+done
+export PROJECT_PATH
+
+CRAFT_ARTIFACT=$(find "$PROJECT_PATH" -maxdepth 1 -name '*.rock' -print -quit)
+[[ -z "$CRAFT_ARTIFACT" ]] && fatal "Could not find rockcraft artifact in $PROJECT_PATH"
+
+command -v docker >/dev/null 2>&1 || fatal "docker is not installed"
+command -v rockcraft >/dev/null 2>&1 || fatal "rockcraft is not installed"
+
+sudo rockcraft.skopeo \
+    --insecure-policy copy \
+    "oci-archive:$CRAFT_ARTIFACT" \
+    docker-daemon:rust-rock:latest &>/dev/null \
+    || fatal "Could not import $CRAFT_ARTIFACT to docker"
+
+defer "docker image rm --force rust-rock:latest &>/dev/null || true" EXIT
+
+# all tests expect to run from their directory
+# shellcheck disable=SC2064
+defer "cd \"$PWD\" || true" EXIT
+cd "$FILE_DIR" || exit 1
+
+# use trap to echo a message on exit
+on_exit() {
+    case $? in
+        0) echo -e "\e[32mTest passed\e[0m: $0" ;;
+        130) echo -e "\e[33mTest interrupted\e[0m: $0" ;;
+        *) echo -e "\e[31mTest failed\e[0m: $0" ;;
+    esac
+}
+# shellcheck disable=SC2064
+defer "on_exit" EXIT
+defer 'exit 130' INT TERM
+
+# Set bash options
+set -euxo pipefail
