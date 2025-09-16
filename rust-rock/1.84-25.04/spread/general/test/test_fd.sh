@@ -32,7 +32,7 @@ docker exec --workdir /workdir "$name" cargo build --no-default-features
 docker exec --workdir /workdir "$name" cargo test --no-default-features -- --show-output
 
 # # Run the built binary to verify it works
-help=$(docker exec -t "$name" /workdir/target/debug/fd --help | head -n1)
+help=$(docker exec -t "$name" /workdir/target/debug/fd --help 2>&1 | head -n1)
 echo "$help" | grep -q "A program to find entries in your filesystem"
 version=$(docker exec -t "$name" /workdir/target/debug/fd --version)
 echo "$version" | grep -q "fd 10.3.0"
