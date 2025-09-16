@@ -25,7 +25,12 @@ docker create --name "$name" -v "$PWD"/testfiles/eza:/workdir rust-rock:latest >
 docker start "$name" 2>/dev/null || true
 defer "docker rm --force $name &>/dev/null || true;" EXIT
 
+# Build
 docker exec --workdir /workdir "$name" cargo build
+
+# Run tests
+# disable doctests since we don't have rustdoc
+docker exec --workdir /workdir "$name" cargo test --lib --bins --tests
 
 # # Run the built eza binary to verify it works
 docker exec -t "$name" /workdir/target/debug/eza --help | grep -q "eza \[options\] \[files...\]"
