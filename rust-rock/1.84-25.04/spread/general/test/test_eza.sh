@@ -13,10 +13,10 @@ source "$FILE_DIR"/defer.sh
 ## TESTS 
 # spellchecker: ignore
 
-url="https://github.com/eza-community/eza.git"
-tag="v0.23.3"
+url="https://github.com/eza-community/eza/archive/refs/tags/v0.23.3.tar.gz"
 sudo rm -rf "$FILE_DIR/testfiles/eza" || true
-git clone "$url" "$FILE_DIR/testfiles/eza" -b "$tag" --single-branch
+mkdir -p "$FILE_DIR/testfiles/eza"
+wget -qO- "$url" | tar xz --strip 1 -C "$FILE_DIR/testfiles/eza"
 defer "sudo rm -rf $FILE_DIR/testfiles/eza" EXIT
 
 name=test_eza
@@ -24,7 +24,6 @@ docker rm -f "$name" 2>/dev/null || true
 docker create --name "$name" -v "$PWD"/testfiles/eza:/workdir rust-rock:latest > /dev/null
 docker start "$name" 2>/dev/null || true
 defer "docker rm --force $name &>/dev/null || true;" EXIT
-
 
 docker exec --workdir /workdir "$name" cargo build
 
