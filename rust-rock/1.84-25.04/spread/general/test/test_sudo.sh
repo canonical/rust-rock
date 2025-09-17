@@ -27,6 +27,7 @@ defer "docker rm --force $name &>/dev/null || true;" EXIT
 
 # Install dependencies of sudo-rs
 docker exec "$name" apt-get update
+docker exec "$name" apt-get install -y coreutils dpkg apt
 docker exec "$name" apt-get install -y tzdata libpam0g-dev
 
 # Build
@@ -42,6 +43,7 @@ skip=(
     system::audit::test::test_secure_open_cookie_file
 )
 skip_flags=$(printf "%s\n" "${skip[@]}" | sed 's/^/--skip /' | xargs)
+# shellcheck disable=SC2086
 docker exec --workdir /workdir "$name" cargo test \
     --lib --bins --tests \
     -- $skip_flags --show-output

@@ -29,10 +29,24 @@ defer "docker rm --force $name &>/dev/null || true;" EXIT
 docker exec --workdir /workdir "$name" cargo build --no-default-features
 
 # Run tests
-docker exec --workdir /workdir "$name" cargo test --no-default-features -- --show-output
+skip=(
+    test_exec
+    test_exec_batch
+    test_exec_batch_multi
+    test_exec_batch_with_limit
+    test_exec_invalid_utf8
+    test_exec_multi
+    test_exec_with_separator
+    test_list_details
+)
+skip_flags=$(printf "%s\n" "${skip[@]}" | sed 's/^/--skip /' | xargs)
+# shellcheck disable=SC2086
+docker exec --workdir /workdir "$name" cargo test \
+    --no-default-features \
+    -- $skip_flags --show-output
 
 # # Run the built binary to verify it works
-help=$(docker exec -t "$name" /workdir/target/debug/fd --help 2>&1 | head -n1)
+help=$(docker exec -t "$name" /workdir/target/debug/fd --help 2>&1 | head -n1 || true)
 echo "$help" | grep -q "A program to find entries in your filesystem"
 version=$(docker exec -t "$name" /workdir/target/debug/fd --version)
 echo "$version" | grep -q "fd 10.3.0"

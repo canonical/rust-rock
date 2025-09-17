@@ -17,5 +17,5 @@ parts:
     plugin: nil
     source: https://github.com/lczyk/chisel-releases.git
     source-type: git
-    source-branch: ROCKS-2271/cargo-1.84-25.04
+    source-branch: ROCKS-2270/temp-cargo-apt-merge-25.04
     override-build: bash /root/project/rust_override_build.sh

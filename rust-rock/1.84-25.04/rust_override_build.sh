@@ -25,7 +25,7 @@ function main() {
     slices+=(ca-certificates_data)
 
     # package management, to be able to install additional dependencies if needed 
-    slices+=(apt_apt-get)
+    slices+=(apt_apt-get-mini)
 
     chisel cut --release './' \
         --root "$CRAFT_PART_INSTALL" \
