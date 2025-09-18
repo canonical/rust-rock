@@ -19,3 +19,10 @@ parts:
     source-type: git
     source-branch: ROCKS-2270/temp-cargo-apt-merge-25.04
     override-build: bash /root/project/rust_override_build.sh
+
+  deb-security-manifest:
+    plugin: make
+    source: https://github.com/canonical/rocks-security-manifest
+    source-type: git
+    source-branch: main
+    override-prime: gen_manifest
