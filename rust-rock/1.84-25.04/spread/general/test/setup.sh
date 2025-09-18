@@ -25,6 +25,7 @@ CRAFT_ARTIFACT=$(find "$PROJECT_PATH" -maxdepth 1 -name '*.rock' -print -quit)
 
 command -v docker >/dev/null 2>&1 || fatal "docker is not installed"
 command -v rockcraft >/dev/null 2>&1 || fatal "rockcraft is not installed"
+command -v sponge >/dev/null 2>&1 || fatal "sponge is not installed. Please install the moreutils package"
 
 sudo rockcraft.skopeo \
     --insecure-policy copy \

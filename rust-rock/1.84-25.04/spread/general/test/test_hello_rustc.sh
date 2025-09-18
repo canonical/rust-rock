@@ -20,4 +20,5 @@ docker start "$name" 2>/dev/null || true
 defer "docker rm --force $name &>/dev/null || true" EXIT
 
 docker exec "$name" rustc /workdir/testfiles/hello.rs -o /tmp/hello
-docker exec "$name" /tmp/hello | grep -q "Hello from Rust!"
+docker exec "$name" /tmp/hello \
+    | sponge | grep -q "Hello from Rust!"

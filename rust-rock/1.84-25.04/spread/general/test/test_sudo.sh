@@ -11,7 +11,7 @@ fi
 source "$FILE_DIR"/defer.sh
 
 ## TESTS 
-# spellchecker: ignore doctests rustdoc libpam tzdata
+# spellchecker: ignore doctests rustdoc libpam tzdata coreutils
 
 url="https://github.com/trifectatechfoundation/sudo-rs/archive/refs/tags/v0.2.8.tar.gz"
 sudo rm -rf "$FILE_DIR/testfiles/sudo-rs" || true
@@ -49,5 +49,7 @@ docker exec --workdir /workdir "$name" cargo test \
     -- $skip_flags --show-output
 
 # Run the built binary to verify it works
-docker exec -t "$name" /workdir/target/debug/sudo --help | grep -q "sudo - run commands as another user"
-docker exec -t "$name" /workdir/target/debug/sudo --version | grep -q "sudo-rs 0.2.8"
+docker exec -t "$name" /workdir/target/debug/sudo --help \
+    | sponge | grep -q "sudo - run commands as another user"
+docker exec -t "$name" /workdir/target/debug/sudo --version \
+    | sponge | grep -q "sudo-rs 0.2.8"

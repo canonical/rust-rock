@@ -32,9 +32,8 @@ docker exec --workdir /workdir "$name" cargo build
 docker exec --workdir /workdir "$name" cargo test -- --show-output
 
 # Run the built binary to verify it works
-help=$(docker exec -t "$name" /workdir/target/debug/oxidizr --help | head -n1)
-echo "$help" | grep -q "A command-line utility to install modern Rust-based replacements of essential packages"
-version=$(docker exec -t "$name" /workdir/target/debug/oxidizr --version)
+docker exec -t "$name" /workdir/target/debug/oxidizr --help \
+    | sponge | head -n1 | grep -q "A command-line utility to install modern Rust-based replacements of essential packages"
 # yep. there's a version mismatch between the tag and Cargo.toml
-echo "$version" | grep -q "oxidizr 1.0.0"
-
+docker exec -t "$name" /workdir/target/debug/oxidizr --version \
+    | sponge | head -n1 | grep -q "oxidizr 1.0.0"

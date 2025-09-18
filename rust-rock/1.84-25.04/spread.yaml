@@ -27,6 +27,10 @@ suites:
         --insecure-policy copy \
         "oci-archive:$CRAFT_ARTIFACT" \
         docker-daemon:rust-rock:latest
+      
+      # Install moreutils package for 'sponge' command
+      sudo apt update
+      sudo apt install --yes moreutils
 
     restore: |
       docker image rm --force rust-rock:latest

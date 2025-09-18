@@ -46,9 +46,9 @@ docker exec --workdir /workdir "$name" cargo test \
     -- $skip_flags --show-output
 
 # # Run the built binary to verify it works
-help=$(docker exec -t "$name" /workdir/target/debug/fd --help 2>&1 | head -n1 || true)
-echo "$help" | grep -q "A program to find entries in your filesystem"
-version=$(docker exec -t "$name" /workdir/target/debug/fd --version)
-echo "$version" | grep -q "fd 10.3.0"
-libc=$(docker exec -t --workdir / "$name" /workdir/target/debug/fd --color never libc.so.6)
-echo "$libc" | grep -q "libc.so.6"
+docker exec "$name" /workdir/target/debug/fd --help 2>&1 \
+    | sponge | head -n1 | grep -q "A program to find entries in your filesystem"
+docker exec "$name" /workdir/target/debug/fd --version \
+    | sponge | grep -q "fd 10.3.0"
+docker exec --workdir / "$name" /workdir/target/debug/fd --color never libc.so.6 \
+    | sponge | grep -q "libc.so.6"
