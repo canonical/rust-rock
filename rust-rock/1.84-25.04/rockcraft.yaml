@@ -22,6 +22,7 @@ parts:
 
   deb-security-manifest:
     plugin: make
+    after: [rust]
     source: https://github.com/canonical/rocks-security-manifest
     source-type: git
     source-branch: main
