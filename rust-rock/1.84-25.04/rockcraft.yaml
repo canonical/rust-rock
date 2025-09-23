@@ -21,9 +21,10 @@ parts:
     override-build: bash /root/project/rust_override_build.sh
 
   deb-security-manifest:
-    plugin: make
+    plugin: nil
     after: [rust]
-    source: https://github.com/canonical/rocks-security-manifest
+    source: https://github.com/lczyk/rocks-security-manifest
     source-type: git
-    source-branch: main
+    source-branch: un-make
+    override-build: ./install_gen_manifest
     override-prime: gen_manifest
