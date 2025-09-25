@@ -20,7 +20,10 @@ description: |
 # https://www.rust-lang.org/policies/licenses
 # the GCC toolchain included in this rock is licensed under GPL-3.0
 # https://gcc.gnu.org/onlinedocs/libstdc++/manual/license.html
-license: (MIT OR Apache-2.0) AND GPL-3.0
+
+# commended out since rockcraft does not support license expressions
+# https://github.com/canonical/rockcraft/issues/978
+# license: (MIT OR Apache-2.0) AND GPL-3.0
 
 base: bare
 # TODO: Update to 25.04 when available
