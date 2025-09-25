@@ -1,16 +1,39 @@
 # spellchecker: ignore rustc
 
 name: rust-rock
-base: bare
-build-base: ubuntu@24.04
 version: '1.84'
-summary: SDK rock for rust
+summary: Chiseled rust 1.84 rock
 description: |
-  Software development kit rock for rust programming language. It includes
-  rustc, cargo and rust-std, as well as the gcc-14 compiler toolchain.
+    Rust is a modern memory-safe systems programming language focused on
+    performance and reliability.
+
+    This image is a chiselled Ubuntu rock based on Ubuntu 25.04. It contains
+    a minimal Rust 1.84 toolchain and Cargo build system which can be used to
+    build a wide variety of Rust applications. It also includes a minimal
+    GCC toolchain to custom build steps in Cargo builds.
+    
+    Any additional dependencies can be either mounted at runtime or installed
+    with the minimal apt installation included in this rock (apt will need to
+    be bootstrapped before use. run `apt --bootstrap` as root to do this).
+
+# - rust and cargo are dual licensed under MIT or Apache-2.0
+# - the GCC toolchain included in this rock is licensed under GPL-2.0
+# https://www.rust-lang.org/policies/licenses
+# https://gcc.gnu.org/onlinedocs/libstdc++/manual/license.html
+license: MIT | Apache-2.0 | GPL-3.0
+
+base: bare
+# TODO: Update to 25.04 when available
+build-base: ubuntu@24.04
+
+run-user: _daemon_
+
 platforms:
   amd64:
   arm64:
+
+environment:
+    # ...
 
 parts:
   rust:
