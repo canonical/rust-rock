@@ -29,8 +29,6 @@ base: bare
 # TODO: Update to 25.04 when available
 build-base: ubuntu@24.04
 
-run-user: _daemon_
-
 platforms:
   amd64:
   arm64:
