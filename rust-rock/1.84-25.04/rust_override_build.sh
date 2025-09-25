@@ -7,7 +7,7 @@ function main() {
         rustc-1.84_rustc
         gcc-14-"${CRAFT_ARCH_TRIPLET_BUILD_FOR//_/-}"_gcc-14
         binutils-"${CRAFT_ARCH_TRIPLET_BUILD_FOR//_/-}"_linker
-        libgcc-14-dev_libgcc
+        libgcc-14-dev_core
     )
 
     # we need cpp and as for gcc to be able to create executables
