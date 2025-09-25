@@ -4,7 +4,7 @@ backends:
   craft:
     type: craft
     systems:
-      - ubuntu-24.04:
+      - ubuntu-25.04:
       # - ubuntu-22.04:
 
 suites:
