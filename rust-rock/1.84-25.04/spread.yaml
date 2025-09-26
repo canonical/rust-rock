@@ -1,4 +1,4 @@
-project: rustc
+project: rustc-1.84-25.04
 
 backends:
   craft:
@@ -6,10 +6,14 @@ backends:
     systems:
       - ubuntu-24.04:
       # - ubuntu-22.04:
-
+  
 suites:
   spread/general/:
     summary: General integration tests
+
+    environment:
+      SHARED_LIBRARIES: $PROJECT_PATH/spread/lib
+      PATH: $PATH:$SHARED_LIBRARIES
 
     prepare: |
       sudo snap install docker

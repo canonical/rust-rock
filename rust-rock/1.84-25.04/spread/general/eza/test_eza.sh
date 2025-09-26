@@ -1,17 +1,8 @@
 #!/usr/bin/env bash
+# spellchecker: ignore doctests rustdoc
 
-FILE_DIR=$(realpath "$(dirname "$0")")
-
-if [[ "$1" != "--spread" ]]; then
-    # shellcheck source=./setup.sh
-    source "$FILE_DIR"/setup.sh
-fi
-
-# shellcheck source=./defer.sh
-source "$FILE_DIR"/defer.sh
-
-## TESTS 
-# spellchecker: ignore
+# shellcheck source=../../lib/defer.sh
+source defer.sh
 
 url="https://github.com/eza-community/eza/archive/refs/tags/v0.23.3.tar.gz"
 sudo rm -rf "$FILE_DIR/testfiles/eza" || true
