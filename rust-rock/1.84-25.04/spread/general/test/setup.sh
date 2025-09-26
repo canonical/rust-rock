@@ -54,3 +54,5 @@ defer 'exit 130' INT TERM
 
 # Set bash options
 set -euxo pipefail
+# ignore sigpipe
+trap '' SIGPIPE
