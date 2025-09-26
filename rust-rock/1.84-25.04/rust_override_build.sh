@@ -1,5 +1,5 @@
 set -e
-# spellchecker: ignore rustc binutils libgcc
+# spellchecker: ignore rustc binutils libgcc archiver
 
 function main() {
     local slices=(
