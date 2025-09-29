@@ -1,27 +1,22 @@
 #!/usr/bin/env bash
 
-FILE_DIR=$(realpath "$(dirname "$0")")
+# shellcheck source=../../lib/defer.sh
+source defer.sh
 
-if [[ "$1" != "--spread" ]]; then
-    # shellcheck source=./setup.sh
-    source "$FILE_DIR"/setup.sh
-fi
-
-# shellcheck source=./defer.sh
-source "$FILE_DIR"/defer.sh
+tmpdir=$(mktemp -d)
 
 ## TESTS 
 # spellchecker: ignore doctests rustdoc libpam tzdata coreutils
 
 url="https://github.com/trifectatechfoundation/sudo-rs/archive/refs/tags/v0.2.8.tar.gz"
-sudo rm -rf "$FILE_DIR/testfiles/sudo-rs" || true
-mkdir -p "$FILE_DIR/testfiles/sudo-rs"
-wget -qO- "$url" | tar xz --strip 1 -C "$FILE_DIR/testfiles/sudo-rs"
-defer "sudo rm -rf $FILE_DIR/testfiles/sudo-rs" EXIT
+sudo rm -rf "$tmpdir/sudo-rs" || true
+mkdir -p "$tmpdir/sudo-rs"
+wget -qO- "$url" | tar xz --strip 1 -C "$tmpdir/sudo-rs"
+defer "sudo rm -rf $tmpdir/sudo-rs" EXIT
 
 name=test_sudo
 docker rm -f "$name" 2>/dev/null || true
-docker create --name "$name" -v "$PWD"/testfiles/sudo-rs:/workdir rust-rock:latest > /dev/null
+docker create --name "$name" -v "$tmpdir/sudo-rs:/workdir" rust-rock:latest > /dev/null
 docker start "$name" 2>/dev/null || true
 defer "docker rm --force $name &>/dev/null || true;" EXIT
 

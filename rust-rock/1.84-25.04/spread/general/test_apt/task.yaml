@@ -1,0 +1,2 @@
+summary: Test apt bootstrap in the image
+execute: bash test_apt_bootstrap.sh

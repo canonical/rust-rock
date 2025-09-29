@@ -1,27 +1,22 @@
 #!/usr/bin/env bash
 
-FILE_DIR=$(realpath "$(dirname "$0")")
+# shellcheck source=../../lib/defer.sh
+source defer.sh
 
-if [[ "$1" != "--spread" ]]; then
-    # shellcheck source=./setup.sh
-    source "$FILE_DIR"/setup.sh
-fi
-
-# shellcheck source=./defer.sh
-source "$FILE_DIR"/defer.sh
+tmpdir=$(mktemp -d)
 
 ## TESTS 
 # spellchecker: ignore fd binutils libc
 
 url="https://github.com/sharkdp/fd/archive/refs/tags/v10.3.0.tar.gz"
-sudo rm -rf "$FILE_DIR/testfiles/fd" || true
-mkdir -p "$FILE_DIR/testfiles/fd"
-wget -qO- "$url" | tar xz --strip 1 -C "$FILE_DIR/testfiles/fd"
-defer "sudo rm -rf $FILE_DIR/testfiles/fd" EXIT
+# sudo rm -rf "$tmpdir/fd" || true
+mkdir -p "$tmpdir/fd"
+wget -qO- "$url" | tar xz --strip 1 -C "$tmpdir/fd"
+defer "sudo rm -rf $tmpdir/fd" EXIT
 
 name=test_fd
 docker rm -f "$name" 2>/dev/null || true
-docker create --name "$name" -v "$PWD"/testfiles/fd:/workdir rust-rock:latest > /dev/null
+docker create --name "$name" -v "$tmpdir/fd:/workdir" rust-rock:latest > /dev/null
 docker start "$name" 2>/dev/null || true
 defer "docker rm --force $name &>/dev/null || true;" EXIT
 

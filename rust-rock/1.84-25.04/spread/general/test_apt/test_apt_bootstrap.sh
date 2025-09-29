@@ -1,14 +1,7 @@
 #!/usr/bin/env bash
 
-FILE_DIR=$(realpath "$(dirname "$0")")
-
-if [[ "$1" != "--spread" ]]; then
-    # shellcheck source=./setup.sh
-    source "$FILE_DIR"/setup.sh
-fi
-
-# shellcheck source=./defer.sh
-source "$FILE_DIR"/defer.sh
+# shellcheck source=../../lib/defer.sh
+source defer.sh
 
 ## TESTS 
 # spellchecker: ignore doctests rustdoc libpam tzdata coreutils

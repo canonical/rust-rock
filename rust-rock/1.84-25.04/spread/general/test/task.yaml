@@ -1,2 +1,0 @@
-summary: General tests for the rust rock
-execute: ./run.sh --spread
