@@ -15,7 +15,7 @@ if [[ -z "${__DEFER_SH__:-}" ]]; then
             trap -- "$new_cmd" "$defer_name" || _fatal "unable to modify trap ${defer_name}"
         done
     }
-    declare -f -t trap_add
+    declare -f -t defer
 
     ############################################################################
     # Self-test when run directly with --test
