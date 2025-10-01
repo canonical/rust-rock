@@ -37,6 +37,9 @@ suites:
       sudo apt update
       sudo apt install --yes moreutils
 
+      # Make the tmp directory
+      mkdir -p "$TMPDIR"
+
     restore: |
       docker image rm --force rust-rock:latest
 

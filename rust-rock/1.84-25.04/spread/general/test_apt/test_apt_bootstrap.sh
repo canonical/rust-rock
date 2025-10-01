@@ -15,7 +15,7 @@ docker start "$name" 2>/dev/null || true
 defer "docker rm --force $name &>/dev/null || true;" EXIT
 
 # Make sure we can bootstrap apt
-docker exec "$name" apt --bootstrap
+docker exec "$name" apt-bootstrap
 
 # Verify apt works
 docker exec "$name" apt info python3.13 \
@@ -34,7 +34,7 @@ docker start "$name" 2>/dev/null || true
 defer "docker rm --force $name &>/dev/null || true;" EXIT
 
 # Make sure we can bootstrap apt-get
-docker exec "$name" apt-get --bootstrap
+docker exec "$name" apt-bootstrap
 
 # Verify apt-get works
 docker exec "$name" apt info python3.13 \

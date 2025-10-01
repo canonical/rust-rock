@@ -64,6 +64,7 @@ function main() {
     mv "$CRAFT_PART_INSTALL"/usr/bin/apt-get "$CRAFT_PART_INSTALL"/usr/bin/.apt-get
     ln -s .apt-shim "$CRAFT_PART_INSTALL"/usr/bin/apt
     ln -s .apt-shim "$CRAFT_PART_INSTALL"/usr/bin/apt-get
+    ln -s .apt-shim "$CRAFT_PART_INSTALL"/usr/bin/apt-bootstrap
 }
 
 main "$@"

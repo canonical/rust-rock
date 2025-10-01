@@ -14,7 +14,7 @@ description: |
     
     Any additional dependencies can be either mounted at runtime or installed
     with the minimal apt installation included in this rock (apt will need to
-    be bootstrapped before use. run `apt --bootstrap` as root to do this).
+    be bootstrapped before use. run `apt-bootstrap` as root to do this).
 
 # rust and cargo are dual licensed under MIT or Apache-2.0
 # https://www.rust-lang.org/policies/licenses
