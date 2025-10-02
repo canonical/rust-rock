@@ -15,6 +15,7 @@ wget -qO- "$url" | tar xz --strip 1 -C "$tmpdir/eza"
 defer "sudo rm -rf $tmpdir/eza" EXIT
 
 name=$(launch_container eza "$tmpdir/eza")
+defer "docker rm --force $name &>/dev/null || true" EXIT
 
 # Build
 docker exec --workdir /work "$name" cargo build

@@ -2,8 +2,11 @@
 
 # shellcheck source=../../lib/common.sh
 source common.sh
+# shellcheck source=../../lib/defer.sh
+source defer.sh
 
 name=$(launch_container cargo)
+defer "docker rm --force $name &>/dev/null || true" EXIT
 
 # Create a new cargo project in /tmp
 docker exec "$name" cargo new --bin /tmp/hello

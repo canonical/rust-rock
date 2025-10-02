@@ -16,6 +16,7 @@ git clone "$url" "$tmpdir/cargo" -b "$tag" --single-branch
 defer "sudo rm -rf $tmpdir/cargo" EXIT
 
 name=$(launch_container cargo "$tmpdir/cargo")
+defer "docker rm --force $name &>/dev/null || true" EXIT
 
 # Install dependencies of cargo
 docker exec "$name" apt-get update

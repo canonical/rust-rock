@@ -1,4 +1,4 @@
-# spellchecker: ignore sigpipe
+# spellchecker: ignore sigpipe subshell
 # Set bash options
 set -eux
 
@@ -16,5 +16,7 @@ function launch_container() {
     docker create --name "$name" -v "$work:/work:ro" rust-rock:latest &> /dev/null
     docker start "$name" &>/dev/null || true
     echo "$name"
-    defer "docker rm --force $name &>/dev/null || true" EXIT
+    # NOTE: defer doe snot run at the end of the function, but it does
+    #       if launch_container is called from the subshell   
+    # defer "docker rm --force $name &>/dev/null || true" EXIT
 }

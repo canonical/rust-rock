@@ -17,6 +17,7 @@ wget -qO- "$url" | tar xz --strip 1 -C "$tmpdir/fd"
 defer "sudo rm -rf $tmpdir/fd" EXIT
 
 name=$(launch_container fd "$tmpdir/fd")
+defer "docker rm --force $name &>/dev/null || true" EXIT
 
 # Build
 docker exec --workdir /work "$name" cargo build --no-default-features

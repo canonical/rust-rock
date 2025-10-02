@@ -2,8 +2,11 @@
 
 # shellcheck source=../../lib/common.sh
 source common.sh
+# shellcheck source=../../lib/defer.sh
+source defer.sh
 
 name=$(launch_container apt)
+defer "docker rm --force $name &>/dev/null || true" EXIT
 
 # Run apt update
 docker exec "$name" apt update

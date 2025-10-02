@@ -17,6 +17,7 @@ wget -qO- "$url" | tar xz --strip 1 -C "$tmpdir/sudo-rs"
 defer "sudo rm -rf $tmpdir/sudo-rs" EXIT
 
 name=$(launch_container sudo-rs "$tmpdir/sudo-rs")
+defer "docker rm --force $name &>/dev/null || true" EXIT
 
 # Install dependencies of sudo-rs
 docker exec "$name" apt-get update

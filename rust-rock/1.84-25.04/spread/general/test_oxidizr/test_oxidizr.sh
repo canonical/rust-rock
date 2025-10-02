@@ -18,6 +18,7 @@ wget -qO- "$url" | tar xz --strip 1 -C "$tmpdir/oxidizr"
 defer "sudo rm -rf $tmpdir/oxidizr" EXIT
 
 name=$(launch_container oxidizr "$tmpdir/oxidizr")
+defer "docker rm --force $name &>/dev/null || true" EXIT
 
 # Build
 docker exec --workdir /work "$name" cargo build
