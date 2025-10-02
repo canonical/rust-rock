@@ -14,6 +14,9 @@ docker create --name "$name" rust-rock:latest > /dev/null
 docker start "$name" 2>/dev/null || true
 defer "docker rm --force $name &>/dev/null || true;" EXIT
 
+# Run apt update
+docker exec "$name" apt update
+
 # Verify apt works
 docker exec "$name" apt info python3.13 \
     | sponge | head -n1 | grep -q "Package: python3.13"
