@@ -22,7 +22,6 @@ docker start "$name" 2>/dev/null || true
 defer "docker rm --force $name &>/dev/null || true;" EXIT
 
 # Install dependencies of cargo
-docker exec "$name" apt-bootstrap
 docker exec "$name" apt-get update
 docker exec "$name" apt-get install -y libssl-dev pkg-config
 
