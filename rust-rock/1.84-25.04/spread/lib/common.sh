@@ -9,9 +9,9 @@ source defer.sh
 # The container is removed on script exit
 function launch_container() {
     local name="_test_container"
-    [ -n "$1" ] && name="${name}_$1"
+    [ -n "${1:-}" ] && name="${name}_$1"
     local work="$(pwd)"
-    [ -n "$2" ] && work="$2"
+    [ -n "${2:-}" ] && work="$2"
     docker rm -f "$name" &>/dev/null || true
     docker create --name "$name" -v "$work:/work:ro" rust-rock:latest &> /dev/null
     docker start "$name" &>/dev/null || true
