@@ -1,6 +1,0 @@
-summary: Basic tests for rust, cargo and gcc
-execute: |
-  bash test_help_and_version.sh
-  bash test_hello_rustc.sh
-  bash test_hello_cargo.sh
-  bash test_hello_gcc.sh

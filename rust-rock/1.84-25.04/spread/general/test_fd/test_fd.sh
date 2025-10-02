@@ -16,14 +16,10 @@ mkdir -p "$tmpdir/fd"
 wget -qO- "$url" | tar xz --strip 1 -C "$tmpdir/fd"
 defer "sudo rm -rf $tmpdir/fd" EXIT
 
-name=test_fd
-docker rm -f "$name" 2>/dev/null || true
-docker create --name "$name" -v "$tmpdir/fd:/workdir" rust-rock:latest > /dev/null
-docker start "$name" 2>/dev/null || true
-defer "docker rm --force $name &>/dev/null || true;" EXIT
+name=$(launch_container fd "$tmpdir/fd")
 
 # Build
-docker exec --workdir /workdir "$name" cargo build --no-default-features
+docker exec --workdir /work "$name" cargo build --no-default-features
 
 # Run tests
 skip=(
@@ -38,14 +34,14 @@ skip=(
 )
 skip_flags=$(printf "%s\n" "${skip[@]}" | sed 's/^/--skip /' | xargs)
 # shellcheck disable=SC2086
-docker exec --workdir /workdir "$name" cargo test \
+docker exec --workdir /work "$name" cargo test \
     --no-default-features \
     -- $skip_flags --show-output
 
 # # Run the built binary to verify it works
-docker exec "$name" /workdir/target/debug/fd --help 2>&1 \
+docker exec "$name" /work/target/debug/fd --help 2>&1 \
     | sponge | head -n1 | grep -q "A program to find entries in your filesystem"
-docker exec "$name" /workdir/target/debug/fd --version \
+docker exec "$name" /work/target/debug/fd --version \
     | sponge | grep -q "fd 10.3.0"
-docker exec --workdir / "$name" /workdir/target/debug/fd --color never libc.so.6 \
+docker exec --workdir / "$name" /work/target/debug/fd --color never libc.so.6 \
     | sponge | grep -q "libc.so.6"
