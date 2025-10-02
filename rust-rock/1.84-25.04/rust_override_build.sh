@@ -24,9 +24,11 @@ function main() {
     # + its required in SDK rocks
     slices+=(ca-certificates_data)
 
+    # this is an SDK rock. we really want coreutils
+    slices+=(coreutils_bins)
+
     # package management, to be able to install additional dependencies if needed 
-    # We install the '-mini' version which needs bootstrapping.
-    slices+=(apt_apt-get-mini)
+    slices+=(apt_apt-get)
 
     chisel cut --release './' \
         --root "$CRAFT_PART_INSTALL" \
@@ -51,20 +53,6 @@ function main() {
     ln -s \
         "$CRAFT_ARCH_TRIPLET_BUILD_FOR"-gcc-14 \
         "$CRAFT_PART_INSTALL"/usr/bin/gcc
-
-    # Shim out apt and apt-get to be a bit more user-friendly:
-    #   1) tell the user about the minimal installation
-    #   2) provide a way to bootstrap the full installation
-    # See the apt-shim.sh script for details.
-
-    # Old version
-    cp "/root/project/apt-shim.sh" "$CRAFT_PART_INSTALL"/usr/bin/.apt-shim
-    chmod +x "$CRAFT_PART_INSTALL"/usr/bin/.apt-shim
-    mv "$CRAFT_PART_INSTALL"/usr/bin/apt "$CRAFT_PART_INSTALL"/usr/bin/.apt
-    mv "$CRAFT_PART_INSTALL"/usr/bin/apt-get "$CRAFT_PART_INSTALL"/usr/bin/.apt-get
-    ln -s .apt-shim "$CRAFT_PART_INSTALL"/usr/bin/apt
-    ln -s .apt-shim "$CRAFT_PART_INSTALL"/usr/bin/apt-get
-    ln -s .apt-shim "$CRAFT_PART_INSTALL"/usr/bin/apt-bootstrap
 }
 
 main "$@"
