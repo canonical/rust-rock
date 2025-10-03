@@ -1,5 +1,5 @@
 set -e
-# spellchecker: ignore rustc binutils libgcc archiver
+# spellchecker: ignore rustc binutils libgcc archiver coreutils
 
 function main() {
     local slices=(
@@ -26,6 +26,13 @@ function main() {
 
     # this is an SDK rock. we really want coreutils
     slices+=(coreutils_bins)
+
+    # we want the base-files_chisel to generate the chisel manifest, and
+    # base-files_release-info  to indicate that this is a 25.04 rock
+    slices+=(
+        base-files_chisel
+        base-files_release-info
+    )
 
     # package management, to be able to install additional dependencies if needed 
     slices+=(apt_apt-get)
