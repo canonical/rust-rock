@@ -1,6 +1,6 @@
 # spellchecker: ignore rustc
 
-name: rust-rock
+name: rust
 version: '1.84'
 summary: Chiseled rust 1.84 rock
 description: |
