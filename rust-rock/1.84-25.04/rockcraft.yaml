@@ -1,0 +1,53 @@
+# spellchecker: ignore rustc
+
+name: rust-rock
+version: '1.84'
+summary: Chiseled rust 1.84 rock
+description: |
+    Rust is a modern memory-safe systems programming language focused on
+    performance and reliability.
+
+    This image is a chiselled Ubuntu rock based on Ubuntu 25.04. It contains
+    a minimal Rust 1.84 toolchain and Cargo build system which can be used to
+    build a wide variety of Rust applications. It also includes a minimal
+    GCC toolchain to custom build steps in Cargo builds.
+    
+    Any additional dependencies can be either mounted at runtime or installed
+    with the apt installation included in this rock.
+
+# rust and cargo are dual licensed under MIT or Apache-2.0
+# https://www.rust-lang.org/policies/licenses
+# the GCC toolchain included in this rock is licensed under GPL-3.0
+# https://gcc.gnu.org/onlinedocs/libstdc++/manual/license.html
+
+# commended out since rockcraft does not support license expressions
+# https://github.com/canonical/rockcraft/issues/978
+# license: (MIT OR Apache-2.0) AND GPL-3.0
+
+base: bare
+# TODO: Update to 25.04 when available
+build-base: ubuntu@24.04
+
+platforms:
+  amd64:
+  arm64:
+
+environment:
+    # ...
+
+parts:
+  rust:
+    plugin: nil
+    source: https://github.com/lczyk/chisel-releases.git
+    source-type: git
+    source-branch: ROCKS-2270/temp-cargo-apt-merge-25.04
+    override-build: bash /root/project/rust_override_build.sh
+
+  deb-security-manifest:
+    plugin: nil
+    after: [rust]
+    source: https://github.com/lczyk/rocks-security-manifest
+    source-type: git
+    source-branch: un-make
+    override-build: ./install_gen_manifest
+    override-prime: gen_manifest

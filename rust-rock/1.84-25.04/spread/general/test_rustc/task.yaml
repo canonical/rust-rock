@@ -1,0 +1,2 @@
+summary: Basic test of rustc
+execute: bash test_rustc.sh
