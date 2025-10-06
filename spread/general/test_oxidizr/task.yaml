@@ -1,0 +1,2 @@
+summary: Test compiling oxidizr
+execute: bash test_oxidizr.sh
