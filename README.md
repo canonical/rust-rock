@@ -18,10 +18,10 @@ git clone --depth 1 --branch v0.2.8 https://github.com/trifectatechfoundation/su
 cd sudo-rs
 ```
 
-Now lets launch the rust-rock container with the code directory mounted:
+Now lets launch the rust container with the code directory mounted:
 
 ```bash
-$ docker run --name=my-rust-rock --rm -it -v ./:/work rust-rock:1.84
+$ docker run --name=my-rust-rock --rm -it -v ./:/work rust:1.84
 2025-10-06T09:12:26.508Z [pebble] {"type":"security","datetime":"2025-10-06T09:12:26Z","level":"WARN","event":"sys_startup:0","description":"Starting daemon","appid":"pebble"}
 2025-10-06T09:12:26.508Z [pebble] Started daemon.
 2025-10-06T09:12:26.509Z [pebble] POST /v1/services 81.875µs 400 (http+unix)
@@ -60,4 +60,4 @@ Voilà.
 
 ## Available versions
 
-* [Rust 1.84 (Ubuntu 25.04)](./rust-rock/1.84-25.04/rockcraft.yaml)
+* [Rust 1.84 (Ubuntu 25.04)](./rust/1.84-25.04/rockcraft.yaml)
