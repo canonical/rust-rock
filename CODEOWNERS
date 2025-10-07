@@ -2,6 +2,4 @@
 # https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
 # Remember, the last match takes precedence.
 
-# Marcin Konowalczyk
-# marcin.konowalczyk@canonical.com
-* @lczyk
+* @lczyk @alesancor1
