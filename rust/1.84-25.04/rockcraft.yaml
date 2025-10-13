@@ -32,8 +32,9 @@ platforms:
   amd64:
   arm64:
 
+# https://doc.rust-lang.org/cargo/reference/environment-variables.html
 environment:
-    # ...
+  CARGO_HOME: /cargo
 
 parts:
   rust:
