@@ -57,7 +57,7 @@ parts:
       - apt_apt-get
     override-build: |
       # we need to create a symlink for rustc to find the linker
-      ln -s gcc-14 "$CRAFT_PART_INSTALL"/usr/bin/cc
+      ln -s gcc "$CRAFT_PART_INSTALL"/usr/bin/cc
 
   deb-security-manifest:
     plugin: nil
