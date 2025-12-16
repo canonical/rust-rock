@@ -8,7 +8,7 @@ source defer.sh
 
 tmpdir=$(mktemp -d)
 
-url="https://github.com/eza-community/eza/archive/refs/tags/v0.23.3.tar.gz"
+url="https://github.com/eza-community/eza/archive/refs/tags/v0.20.10.tar.gz"
 # sudo rm -rf "$tmpdir/eza" || true
 mkdir -p "$tmpdir/eza"
 wget -qO- "$url" | tar xz --strip 1 -C "$tmpdir/eza"
