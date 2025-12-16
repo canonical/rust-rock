@@ -10,7 +10,7 @@ tmpdir=$(mktemp -d)
 ## TESTS 
 # spellchecker: ignore fd binutils libc
 
-url="https://github.com/sharkdp/fd/archive/refs/tags/v10.3.0.tar.gz"
+url="https://github.com/sharkdp/fd/archive/refs/tags/v9.0.0.tar.gz"
 # sudo rm -rf "$tmpdir/fd" || true
 mkdir -p "$tmpdir/fd"
 wget -qO- "$url" | tar xz --strip 1 -C "$tmpdir/fd"
@@ -43,6 +43,6 @@ docker exec --workdir /work "$name" cargo test \
 docker exec "$name" /work/target/debug/fd --help 2>&1 \
     | sponge | head -n1 | grep -q "A program to find entries in your filesystem"
 docker exec "$name" /work/target/debug/fd --version \
-    | sponge | grep -q "fd 10.3.0"
+    | sponge | grep -q "fd 9.0.0"
 docker exec --workdir / "$name" /work/target/debug/fd --color never libc.so.6 \
     | sponge | grep -q "libc.so.6"
