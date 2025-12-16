@@ -1,0 +1,2 @@
+summary: Basic test of gcc
+execute: bash test_gcc.sh
