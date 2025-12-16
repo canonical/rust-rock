@@ -21,7 +21,7 @@ name=$(launch_container oxidizr "$tmpdir/oxidizr")
 defer "docker rm --force $name &>/dev/null || true" EXIT
 
 # Build
-docker exec --workdir /work "$name" cargo build
+docker exec --workdir /work "$name" cargo build -Znext-lockfile-bump
 
 # Run tests
 docker exec --workdir /work "$name" cargo test -- --show-output
