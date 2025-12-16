@@ -1,0 +1,2 @@
+summary: Help and version flag tests for rust, cargo and gcc
+execute: bash test_help_and_version.sh
