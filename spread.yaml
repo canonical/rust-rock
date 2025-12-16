@@ -1,11 +1,10 @@
-project: rustc-1.84-25.04
+project: rustc-1.75-24.04
 
 backends:
   craft:
     type: craft
     systems:
       - ubuntu-24.04:
-      # - ubuntu-22.04:
   
 suites:
   spread/general/:

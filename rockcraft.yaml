@@ -1,14 +1,14 @@
-# spellchecker: ignore rustc
+# spellchecker: ignore rustc rockcraft coreutils binutils
 
 name: rust
-version: '1.84'
-summary: Chiseled rust 1.84 rock
+version: '1.75'
+summary: Chiseled rust 1.75 rock
 description: |
     Rust is a modern memory-safe systems programming language focused on
     performance and reliability.
 
-    This image is a chiselled Ubuntu rock based on Ubuntu 25.04. It contains
-    a minimal Rust 1.84 toolchain and Cargo build system which can be used to
+    This image is a chiselled Ubuntu rock based on Ubuntu 24.04. It contains
+    a minimal Rust 1.75 toolchain and Cargo build system which can be used to
     build a wide variety of Rust applications. It also includes a minimal
     GCC toolchain to custom build steps in Cargo builds.
     
@@ -25,7 +25,6 @@ description: |
 # license: (MIT OR Apache-2.0) AND GPL-3.0
 
 base: bare
-# TODO: Update to 25.04 when available
 build-base: ubuntu@24.04
 
 platforms:
@@ -39,10 +38,26 @@ environment:
 parts:
   rust:
     plugin: nil
-    source: https://github.com/lczyk/chisel-releases.git
-    source-type: git
-    source-branch: ROCKS-2270/temp-cargo-apt-merge-25.04
-    override-build: bash /root/project/rust_override_build.sh
+    # override-build: bash /root/project/rust_override_build.sh
+    stage-packages:
+      - cargo_cargo  # includes rustc
+      # ar is needed to create static libraries, which cargo sometimes does
+      # when building dependencies
+      - binutils_archiver
+      # cargo needs ca-certificates to be able to download crates.io index
+      # + its required in SDK rocks
+      - ca-certificates_data
+      # this is an SDK rock. we really want coreutils
+      - coreutils_bins
+      # we want the base-files_chisel to generate the chisel manifest, and
+      # base-files_release-info  to indicate that this is a 24.04 rock
+      - base-files_chisel
+      - base-files_release-info
+      # package management, to be able to install additional dependencies if needed 
+      - apt_apt-get
+    override-build: |
+      # we need to create a symlink for rustc to find the linker
+      ln -s gcc-14 "$CRAFT_PART_INSTALL"/usr/bin/cc
 
   deb-security-manifest:
     plugin: nil
