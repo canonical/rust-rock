@@ -1,4 +1,4 @@
-# spellchecker: ignore rustc rockcraft coreutils binutils
+# spellchecker: ignore rustc rockcraft coreutils binutils archiver
 
 name: rust
 version: '1.75'
