@@ -38,26 +38,34 @@ environment:
 parts:
   rust:
     plugin: nil
-    # override-build: bash /root/project/rust_override_build.sh
-    stage-packages:
-      - cargo_cargo  # includes rustc
-      # ar is needed to create static libraries, which cargo sometimes does
-      # when building dependencies
-      - binutils_archiver
-      # cargo needs ca-certificates to be able to download crates.io index
-      # + its required in SDK rocks
-      - ca-certificates_data
-      # this is an SDK rock. we really want coreutils
-      - coreutils_bins
-      # we want the base-files_chisel to generate the chisel manifest, and
-      # base-files_release-info  to indicate that this is a 24.04 rock
-      - base-files_chisel
-      - base-files_release-info
-      # package management, to be able to install additional dependencies if needed 
-      - apt_apt-get
-    override-build: |
-      # we need to create a symlink for rustc to find the linker
-      ln -s gcc "$CRAFT_PART_INSTALL"/usr/bin/cc
+    source: https://github.com/canonical/chisel-releases.git
+    source-type: git
+    source-branch: ubuntu-24.04
+    override-build: bash /root/project/rust_override_build.sh
+    # TODO: we have to pass the --arch flag to chisel to install the correct
+    #       slices, so we cannot use the rockcraft stage-packages feature.
+    #       see: https://github.com/canonical/chisel/pull/256
+    #       once that's all fixed we should switch to the following:
+    #
+    # stage-packages:
+    #   - cargo_cargo  # includes rustc
+    #   # ar is needed to create static libraries, which cargo sometimes does
+    #   # when building dependencies
+    #   - binutils_archiver
+    #   # cargo needs ca-certificates to be able to download crates.io index
+    #   # + its required in SDK rocks
+    #   - ca-certificates_data
+    #   # this is an SDK rock. we really want coreutils
+    #   - coreutils_bins
+    #   # we want the base-files_chisel to generate the chisel manifest, and
+    #   # base-files_release-info  to indicate that this is a 24.04 rock
+    #   - base-files_chisel
+    #   - base-files_release-info
+    #   # package management, to be able to install additional dependencies if needed 
+    #   - apt_apt-get
+    # override-build: |
+    #   # we need to create a symlink for rustc to find the linker
+    #   ln -s gcc-13 "$CRAFT_PART_INSTALL"/usr/bin/cc
 
   deb-security-manifest:
     plugin: nil
