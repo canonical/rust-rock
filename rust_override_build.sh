@@ -48,7 +48,7 @@ function main() {
         "${slices[@]}"
 
     # we need to create a symlink for rustc to find the linker
-    ln -s gcc "$CRAFT_PART_INSTALL"/usr/bin/cc
+    ln -fs gcc "$CRAFT_PART_INSTALL"/usr/bin/cc
 }
 
 main "$@"
