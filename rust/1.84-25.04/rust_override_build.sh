@@ -41,20 +41,23 @@ function main() {
         --root "$CRAFT_PART_INSTALL" \
         "${slices[@]}"
 
-    ln -fs cargo-1.84 "$CRAFT_PART_INSTALL"/usr/bin/cargo
-    ln -fs rustc-1.84 "$CRAFT_PART_INSTALL"/usr/bin/rustc
-    ln -fs \
+    ln -s cargo-1.84 "$CRAFT_PART_INSTALL"/usr/bin/cargo
+    ln -s rustc-1.84 "$CRAFT_PART_INSTALL"/usr/bin/rustc
+    ln -s \
+        "$CRAFT_ARCH_TRIPLET_BUILD_FOR"-gcc-14 \
+        "$CRAFT_PART_INSTALL"/usr/bin/cc
+    ln -s \
         "$CRAFT_ARCH_TRIPLET_BUILD_FOR"-ld \
         "$CRAFT_PART_INSTALL"/usr/bin/ld
-    ln -fs \
+    ln -s \
         "$CRAFT_ARCH_TRIPLET_BUILD_FOR"-as \
         "$CRAFT_PART_INSTALL"/usr/bin/as
-    ln -fs \
+    ln -s \
         "$CRAFT_ARCH_TRIPLET_BUILD_FOR"-ar \
         "$CRAFT_PART_INSTALL"/usr/bin/ar
 
     # Also link gcc-14 to gcc, so that build scripts that expect to find `gcc` in PATH work correctly.
-    ln -fs \
+    ln -s \
         "$CRAFT_ARCH_TRIPLET_BUILD_FOR"-gcc-14 \
         "$CRAFT_PART_INSTALL"/usr/bin/gcc
 }
