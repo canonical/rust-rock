@@ -46,9 +46,6 @@ function main() {
         --root "$CRAFT_PART_INSTALL" \
         --arch "$chisel_arch" \
         "${slices[@]}"
-
-    # we need to create a symlink for rustc to find the linker
-    ln -fs gcc "$CRAFT_PART_INSTALL"/usr/bin/cc
 }
 
 main "$@"
