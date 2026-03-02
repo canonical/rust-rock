@@ -63,9 +63,6 @@ parts:
     #   - base-files_release-info
     #   # package management, to be able to install additional dependencies if needed 
     #   - apt_apt-get
-    # override-build: |
-    #   # we need to create a symlink for rustc to find the linker
-    #   ln -fs gcc-13 "$CRAFT_PART_INSTALL"/usr/bin/cc
 
   deb-security-manifest:
     plugin: nil

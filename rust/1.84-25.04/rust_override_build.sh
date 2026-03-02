@@ -44,9 +44,6 @@ function main() {
     ln -fs cargo-1.84 "$CRAFT_PART_INSTALL"/usr/bin/cargo
     ln -fs rustc-1.84 "$CRAFT_PART_INSTALL"/usr/bin/rustc
     ln -fs \
-        "$CRAFT_ARCH_TRIPLET_BUILD_FOR"-gcc-14 \
-        "$CRAFT_PART_INSTALL"/usr/bin/cc
-    ln -fs \
         "$CRAFT_ARCH_TRIPLET_BUILD_FOR"-ld \
         "$CRAFT_PART_INSTALL"/usr/bin/ld
     ln -fs \
