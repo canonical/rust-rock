@@ -41,12 +41,6 @@ parts:
     source: https://github.com/canonical/chisel-releases.git
     source-type: git
     source-branch: ubuntu-24.04
-    # override-build: bash /root/project/rust_override_build.sh
-    # TODO: we have to pass the --arch flag to chisel to install the correct
-    #       slices, so we cannot use the rockcraft stage-packages feature.
-    #       see: https://github.com/canonical/chisel/pull/256
-    #       once that's all fixed we should switch to the following:
-    #
     stage-packages:
       - cargo_cargo  # includes rustc
       # ar is needed to create static libraries, which cargo sometimes does
