@@ -1,14 +1,14 @@
 # spellchecker: ignore rustc rockcraft coreutils binutils archiver
 
 name: rust
-version: '1.85'
-summary: Chiseled rust 1.85 rock
+version: '1.88'
+summary: Chiseled rust 1.88 rock
 description: |
     Rust is a modern memory-safe systems programming language focused on
     performance and reliability.
 
     This image is a chiselled Ubuntu rock based on Ubuntu 25.10. It contains
-    a minimal Rust 1.85 toolchain and Cargo build system which can be used to
+    a minimal Rust 1.88 toolchain and Cargo build system which can be used to
     build a wide variety of Rust applications. It also includes a minimal
     GCC toolchain to custom build steps in Cargo builds.
     
