@@ -1,0 +1,2 @@
+summary: Basic test of cargo
+execute: bash test_cargo.sh
