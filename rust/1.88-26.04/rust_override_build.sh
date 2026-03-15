@@ -2,7 +2,7 @@ set -e
 # spellchecker: ignore rustc binutils archiver coreutils
 
 function main() {
-    local slices=(cargo_cargo) # cargo provides rustc and gcc too
+    local slices=(cargo-1.88_cargo) # provides rustc-1.88 and gcc too
 
     # ar is needed to create static libraries, which cargo sometimes does
     # when building dependencies
@@ -29,6 +29,11 @@ function main() {
         --ignore=unstable \
         --root "$CRAFT_PART_INSTALL" \
         "${slices[@]}"
+    
+    # this is not the default rust and cargo for this base, so we just need to
+    # create the symlinks for the rust and cargo binaries
+    ln -s cargo-1.88 "$CRAFT_PART_INSTALL"/usr/bin/cargo
+    ln -s rustc-1.88 "$CRAFT_PART_INSTALL"/usr/bin/rustc
 }
 
 main "$@"
