@@ -38,9 +38,6 @@ environment:
 parts:
   rust:
     plugin: nil
-    source: https://github.com/canonical/chisel-releases.git
-    source-type: git
-    source-branch: ubuntu-25.10
     stage-packages:
       - cargo-1.88_cargo  # includes rustc-1.88
       # ar is needed to create static libraries, which cargo sometimes does
