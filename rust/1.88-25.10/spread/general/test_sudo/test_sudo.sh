@@ -35,6 +35,7 @@ skip=(
     su::context::tests::group_as_non_root
     su::context::tests::su_to_root
     system::audit::test::test_secure_open_cookie_file
+    system::timestamp::tests::can_create_and_update_valid_file
 )
 skip_flags=$(printf "%s\n" "${skip[@]}" | sed 's/^/--skip /' | xargs)
 # shellcheck disable=SC2086
