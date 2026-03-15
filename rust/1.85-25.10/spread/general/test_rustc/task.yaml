@@ -1,2 +1,2 @@
 summary: Basic test of rustc
-execute: bash test_rustc.sh
+execute: bash -ex test_rustc.sh
