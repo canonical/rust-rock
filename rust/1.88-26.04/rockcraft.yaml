@@ -7,7 +7,7 @@ description: |
     Rust is a modern memory-safe systems programming language focused on
     performance and reliability.
 
-    This image is a chiselled Ubuntu rock based on Ubuntu 25.10. It contains
+    This image is a chiselled Ubuntu rock based on Ubuntu 26.04. It contains
     a minimal Rust 1.88 toolchain and Cargo build system which can be used to
     build a wide variety of Rust applications. It also includes a minimal
     GCC toolchain to custom build steps in Cargo builds.
@@ -25,7 +25,8 @@ description: |
 # license: (MIT OR Apache-2.0) AND GPL-3.0
 
 base: bare
-build-base: ubuntu@25.10
+# TODO: Change the build-base to ubuntu@26.04 once it goes stable
+build-base: devel
 
 platforms:
   amd64:
@@ -40,28 +41,28 @@ parts:
     plugin: nil
     source: https://github.com/canonical/chisel-releases.git
     source-type: git
-    source-branch: ubuntu-25.10
-    stage-packages:
-      - cargo-1.88_cargo  # includes rustc-1.88
-      # ar is needed to create static libraries, which cargo sometimes does
-      # when building dependencies
-      - binutils_archiver
-      # cargo needs ca-certificates to be able to download crates.io index
-      # + its required in SDK rocks
-      - ca-certificates_data
-      # this is an SDK rock. we really want coreutils
-      - coreutils_bins
-      # we want the base-files_chisel to generate the chisel manifest, and
-      # base-files_release-info  to indicate that this is a 25.10 rock
-      - base-files_chisel
-      - base-files_release-info
-      # package management, to be able to install additional dependencies if needed 
-      - apt_apt-get
-    override-build: |
-      # this is not the default rust and cargo for this base, so we just need to
-      # create the symlinks for the rust and cargo binaries
-      ln -s cargo-1.88 "$CRAFT_PART_INSTALL"/usr/bin/cargo
-      ln -s rustc-1.88 "$CRAFT_PART_INSTALL"/usr/bin/rustc
+    source-branch: ubuntu-26.04
+    override-build: bash /root/project/rust_override_build.sh
+    # TODO: we have to pass the --ignore=unstable flag since 26.04 is still
+    #       in development. once its out we should switch to the following:
+    #
+    # stage-packages:
+    #   - cargo_cargo  # includes rustc
+    #   # ar is needed to create static libraries, which cargo sometimes does
+    #   # when building dependencies
+    #   - binutils_archiver
+    #   # cargo needs ca-certificates to be able to download crates.io index
+    #   # + its required in SDK rocks
+    #   - ca-certificates_data
+    #   # this is an SDK rock. we really want coreutils
+    #   - coreutils_bins
+    #   # we want the base-files_chisel to generate the chisel manifest, and
+    #   # base-files_release-info  to indicate that this is a 26.04 rock
+    #   - base-files_chisel
+    #   - base-files_release-info
+    #   # package management, to be able to install additional dependencies if needed 
+    #   - apt_apt-get
+
 
   deb-security-manifest:
     plugin: nil

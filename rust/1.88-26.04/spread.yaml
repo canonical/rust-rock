@@ -1,4 +1,4 @@
-project: rustc-1.88-25.10
+project: rustc-1.88-26.04
 
 backends:
   craft:
