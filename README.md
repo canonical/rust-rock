@@ -61,4 +61,5 @@ Voilà.
 ## Available versions
 
 * [Rust 1.75 (Ubuntu 24.04)](./rust/1.75-25.04/rockcraft.yaml)
-* [Rust 1.84 (Ubuntu 25.04)](./rust/1.84-25.04/rockcraft.yaml)
+* ~~[Rust 1.84 (Ubuntu 25.04)](./rust/1.84-25.04/rockcraft.yaml)~~ EOL
+* [Rust 1.88 (Ubuntu 26.04)](./rust/1.88-26.04/rockcraft.yaml)
