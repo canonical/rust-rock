@@ -1,2 +1,2 @@
 summary: Test compiling eza
-execute: bash test_eza.sh
+execute: bash -ex test_eza.sh
