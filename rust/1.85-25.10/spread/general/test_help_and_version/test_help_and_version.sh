@@ -19,4 +19,4 @@ docker run --rm rust-rock:latest exec rustc --version \
 docker run --rm rust-rock:latest exec gcc --help \
     | sponge | grep -q "Usage: gcc"
 docker run --rm rust-rock:latest exec gcc --version \
-    | sponge | head -n1 | grep -q 'gcc (Ubuntu 13'
+    | sponge | head -n1 | grep -q 'gcc (Ubuntu 15'
