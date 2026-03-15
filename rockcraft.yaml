@@ -42,7 +42,7 @@ parts:
     source-type: git
     source-branch: ubuntu-25.10
     stage-packages:
-      - cargo_cargo  # includes rustc
+      - cargo-1.88_cargo  # includes rustc-1.88
       # ar is needed to create static libraries, which cargo sometimes does
       # when building dependencies
       - binutils_archiver
@@ -57,6 +57,11 @@ parts:
       - base-files_release-info
       # package management, to be able to install additional dependencies if needed 
       - apt_apt-get
+    override-build: |
+      # this is not the default rust and cargo for this base, so we just need to
+      # create the symlinks for the rust and cargo binaries
+      ln -s cargo-1.88 "$CRAFT_PART_INSTALL"/usr/bin/cargo
+      ln -s rustc-1.88 "$CRAFT_PART_INSTALL"/usr/bin/rustc
 
   deb-security-manifest:
     plugin: nil
