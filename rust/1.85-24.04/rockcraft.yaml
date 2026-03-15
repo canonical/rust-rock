@@ -42,7 +42,7 @@ parts:
     source-type: git
     source-branch: ubuntu-24.04
     stage-packages:
-      - cargo_cargo  # includes rustc
+      - cargo-1.85_cargo  # includes rustc-1.85
       # ar is needed to create static libraries, which cargo sometimes does
       # when building dependencies
       - binutils_archiver
