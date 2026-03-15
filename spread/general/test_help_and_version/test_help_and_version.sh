@@ -7,13 +7,13 @@
 docker run --rm rust-rock:latest exec cargo --help \
     | sponge | grep -q "Rust's package manager"
 docker run --rm rust-rock:latest exec cargo --version \
-    | sponge | grep -q 'cargo 1.85'
+    | sponge | grep -q 'cargo 1.88'
 
 # rust
 docker run --rm rust-rock:latest exec rustc --help \
     | sponge | grep -q "Usage: rustc"
 docker run --rm rust-rock:latest exec rustc --version \
-    | sponge | grep -q 'rustc 1.85'
+    | sponge | grep -q 'rustc 1.88'
 
 # gcc
 docker run --rm rust-rock:latest exec gcc --help \
