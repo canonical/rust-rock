@@ -7,3 +7,4 @@ registries:
 
 images:
   - directory: "rust/1.75-24.04"
+  - directory: "rust/1.85-26.04"
