@@ -1,0 +1,2 @@
+summary: Test compiling fd
+execute: bash -ex test_fd.sh
