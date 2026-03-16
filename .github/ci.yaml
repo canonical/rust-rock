@@ -11,3 +11,4 @@ images:
   - directory: "rust/1.85-25.10"
   - directory: "rust/1.88-25.10"
   - directory: "rust/1.85-26.04"
+  - directory: "rust/1.88-26.04"
