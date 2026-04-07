@@ -1,2 +1,0 @@
-summary: Test compiling eza
-execute: bash -ex test_eza.sh

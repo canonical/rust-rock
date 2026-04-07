@@ -65,5 +65,4 @@ Voilà.
 * ~~[Rust 1.84 (Ubuntu 25.04)](./rust/1.84-25.04/rockcraft.yaml)~~ EOL
 * [Rust 1.85 (Ubuntu 25.10)](./rust/1.85-25.10/rockcraft.yaml)
 * [Rust 1.88 (Ubuntu 25.10)](./rust/1.88-25.10/rockcraft.yaml)
-* [Rust 1.85 (Ubuntu 26.04)](./rust/1.85-26.04/rockcraft.yaml)
 * [Rust 1.93 (Ubuntu 26.04)](./rust/1.93-26.04/rockcraft.yaml)
