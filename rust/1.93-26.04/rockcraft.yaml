@@ -25,8 +25,7 @@ description: |
 # license: (MIT OR Apache-2.0) AND GPL-3.0
 
 base: bare
-# TODO: Change the build-base to ubuntu@26.04 once it goes stable
-build-base: devel
+build-base: ubuntu@26.04
 
 platforms:
   amd64:
