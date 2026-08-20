@@ -11,7 +11,7 @@ description: |
     a minimal Rust 1.93 toolchain and Cargo build system which can be used to
     build a wide variety of Rust applications. It also includes a minimal
     GCC toolchain to custom build steps in Cargo builds.
-    
+
     Any additional dependencies can be either mounted at runtime or installed
     with the apt installation included in this rock.
 
@@ -42,6 +42,10 @@ parts:
     plugin: nil
     stage-packages:
       - cargo-1.93_cargo  # includes rustc-1.93
+      - rust-1.93-clippy_clippy  # rust linter
+      - rustfmt-1.93_cargo-fmt  # rust formatter
+      - rust-1.93-src_src  # rust sources needed by rust-analyzer
+      #- rust-1.93-miri_cargo-miri  # rust unsafe checker
       # ar is needed to create static libraries, which cargo sometimes does
       # when building dependencies
       - binutils_archiver
@@ -54,13 +58,18 @@ parts:
       # base-files_release-info  to indicate that this is a 26.04 rock
       - base-files_chisel
       - base-files_release-info
-      # package management, to be able to install additional dependencies if needed 
+      # package management, to be able to install additional dependencies if needed
       - apt_apt-get
     override-build: |
       # this is not the default rust and cargo for this base, so we just need to
       # create the symlinks for the rust and cargo binaries
-      ln -s cargo-1.93 "$CRAFT_PART_INSTALL"/usr/bin/cargo
-      ln -s rustc-1.93 "$CRAFT_PART_INSTALL"/usr/bin/rustc
+      ln -s /usr/lib/rust-1.93/bin/cargo "$CRAFT_PART_INSTALL"/usr/bin/cargo
+      ln -s /usr/lib/rust-1.93/bin/rustc "$CRAFT_PART_INSTALL"/usr/bin/rustc
+      ln -s /usr/lib/rust-1.93/bin/cargo-clippy "$CRAFT_PART_INSTALL"/usr/bin/cargo-clippy
+      ln -s /usr/lib/rust-1.93/bin/clippy-driver "$CRAFT_PART_INSTALL"/usr/bin/clippy-driver
+      ln -s /usr/lib/rust-1.93/bin/cargo-fmt "$CRAFT_PART_INSTALL"/usr/bin/cargo-fmt
+      ln -s /usr/lib/rust-1.93/bin/rustfmt "$CRAFT_PART_INSTALL"/usr/bin/rustfmt
+      #ln -s /usr/lib/rust-1.93/bin/cargo-miri "$CRAFT_PART_INSTALL"/usr/bin/cargo-miri
 
 
   deb-security-manifest:
