@@ -61,13 +61,3 @@ parts:
       # create the symlinks for the rust and cargo binaries
       ln -s cargo-1.93 "$CRAFT_PART_INSTALL"/usr/bin/cargo
       ln -s rustc-1.93 "$CRAFT_PART_INSTALL"/usr/bin/rustc
-
-
-  deb-security-manifest:
-    plugin: nil
-    after: [rust]
-    source: https://github.com/lczyk/rocks-security-manifest
-    source-type: git
-    source-branch: un-make
-    override-build: ./install_gen_manifest
-    override-prime: gen_manifest
