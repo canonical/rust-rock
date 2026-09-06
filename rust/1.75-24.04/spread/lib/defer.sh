@@ -16,7 +16,7 @@ fi
 if [[ -z "${__DEFER_SH__:-}" ]]; then
     # spellchecker: ignore Marcin Konowalczyk lczyk subshell
 
-    __DEFER_SH_VERSION__='2.0.1'
+    __DEFER_SH_VERSION__='2.0.3'
 
 
 
@@ -56,7 +56,7 @@ if [[ -z "${__DEFER_SH__:-}" ]]; then
         # and the condition sits in a 2>/dev/null group to stay out of set -x.
         # shellcheck disable=SC2016
         local guard='{ (( ${#FUNCNAME[@]} == '"$(( ${#FUNCNAME[@]} - 1 ))"' )); } 2>/dev/null'
-        local unit
+        local unit rid mark
         for defer_name in "$@"; do
             existing_cmd=$(eval "_defer_extract $(trap -p "${defer_name}")")
             case $existing_cmd in
@@ -65,7 +65,11 @@ if [[ -z "${__DEFER_SH__:-}" ]]; then
                 ?*) existing_cmd="$reset $existing_cmd" ;; # foreign trap: give it a reset too
             esac
             case $defer_name in
-                [Rr][Ee][Tt][Uu][Rr][Nn]) unit="if $guard; then $reset ${defer_cmd}; fi;" ;;
+                [Rr][Ee][Tt][Uu][Rr][Nn])
+                    _defer_rid=$(( ${_defer_rid:-0} + 1 ))
+                    rid="$_defer_rid.$RANDOM"
+                    mark="{ : $rid; } 2>/dev/null;"
+                    unit="$mark if $guard; then { _defer_drop $rid; } 2>/dev/null; $reset ${defer_cmd}; fi; $mark" ;;
                 *) unit="$reset ${defer_cmd};" ;;
             esac
             new_cmd="$(printf '%s' '{ _defer_status=$?; } 2>/dev/null; '; printf '%s ' "${unit}"; printf '%s' "${existing_cmd}")"
@@ -76,6 +80,22 @@ if [[ -z "${__DEFER_SH__:-}" ]]; then
         return $rc
     }
     declare -f -t defer
+
+    # remove the RETURN unit with id $1 (bracketed by its markers) from the trap
+    # once it has fired. traced, so the trap edit is not undone by bash's
+    # per-function RETURN trap restore. anchored %% searches only: a mid-pattern
+    # * makes bash retry every end position and the drops go cubic.
+    _defer_drop() {
+        local cur head rest mark="{ : $1; } 2>/dev/null;"
+        cur=$(eval "set -- $(trap -p RETURN)"; printf '%s' "${3-}")
+        head=${cur%%"$mark"*}
+        [[ $head != "$cur" ]] || return 0
+        rest=${cur:${#head}+${#mark}}
+        cur=${rest%%"$mark"*}
+        cur=$head${rest:${#cur}+${#mark}+1}
+        if [[ $cur == '{ _defer_status=$?; } 2>/dev/null; ' ]]; then trap - RETURN; else trap -- "$cur" RETURN; fi
+    }
+    declare -f -t _defer_drop
 
 
 
@@ -138,6 +158,26 @@ if [[ -z "${__DEFER_SH__:-}" ]]; then
             # R fires exactly once, when f returns: not early at defer's own
             # return, and not again as the stack unwinds through g
             test "$output" = "fRg" || return 1
+        }
+
+        function test_return_defer_fires_once() {
+            # regression test: the RETURN trap defer sets inside f used to
+            # outlive f, and re-fired on the next depth-matching return --
+            # e.g. defer's own return on a later top-level call
+            output=""
+            function f() { defer "output+='R'" RETURN; }; f
+            defer "true" USR1
+            f; f
+            test "$output" = "RRR" || return 1
+            test -z "$(trap -p RETURN)" || return 1
+        }
+
+        function test_return_defers_lifo_within_frame() {
+            output=""
+            function f() { defer "output+='1'" RETURN; defer "output+='2'" RETURN; }; f
+            defer "true" USR1
+            test "$output" = "21" || return 1
+            test -z "$(trap -p RETURN)" || return 1
         }
 
         function test_defer_in_function_in_subshell() {
