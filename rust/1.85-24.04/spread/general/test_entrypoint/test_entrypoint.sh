@@ -27,5 +27,5 @@ docker run --rm -e HOME=/tmp rust-rock:latest pwd \
     | sponge | grep -q '^/tmp$'
 
 # the command gets a real terminal when docker allocates one
-docker run --rm -t rust-rock:latest sh -c 'tty' \
-    | sponge | grep -q '^/dev/pts/'
+docker run --rm -t rust-rock:latest sh -c '[ -t 1 ] && echo TTY_OK' \
+    | sponge | grep -q '^TTY_OK'
