@@ -36,6 +36,9 @@ platforms:
 # https://doc.rust-lang.org/cargo/reference/environment-variables.html
 environment:
   CARGO_HOME: /cargo
+  HOME: /work
+
+entrypoint-command: /usr/bin/pebble enter exec -- [ cargo --help ]
 
 parts:
   rust:
@@ -61,6 +64,7 @@ parts:
       # create the symlinks for the rust and cargo binaries
       ln -s cargo-1.85 "$CRAFT_PART_INSTALL"/usr/bin/cargo
       ln -s rustc-1.85 "$CRAFT_PART_INSTALL"/usr/bin/rustc
+      mkdir -p "$CRAFT_PART_INSTALL"/work
 
   deb-security-manifest:
     plugin: nil

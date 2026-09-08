@@ -1,0 +1,2 @@
+summary: Test the rock's entrypoint
+execute: bash -ex test_entrypoint.sh

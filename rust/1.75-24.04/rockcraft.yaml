@@ -36,6 +36,9 @@ platforms:
 # https://doc.rust-lang.org/cargo/reference/environment-variables.html
 environment:
   CARGO_HOME: /cargo
+  HOME: /work
+
+entrypoint-command: /usr/bin/pebble enter exec -- [ cargo --help ]
 
 parts:
   rust:
@@ -59,6 +62,8 @@ parts:
       - base-files_release-info
       # package management, to be able to install additional dependencies if needed 
       - apt_apt-get
+    override-build: |
+      mkdir -p "$CRAFT_PART_INSTALL"/work
 
   deb-security-manifest:
     plugin: nil

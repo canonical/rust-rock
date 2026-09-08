@@ -13,7 +13,7 @@ function launch_container() {
     local work="$(pwd)"
     [ -n "${2:-}" ] && work="$2"
     docker rm -f "$name" &>/dev/null || true
-    docker create --name "$name" -v "$work:/work" rust-rock:latest > /dev/null
+    docker create --name "$name" -v "$work:/work" rust-rock:latest sleep inf > /dev/null
     docker start "$name" &>/dev/null || true
     echo "$name"
     # NOTE: defer does not run at the end of the function, but it does
