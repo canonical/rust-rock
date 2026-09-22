@@ -70,6 +70,7 @@ parts:
       ln -s /usr/lib/rust-1.93/bin/cargo-fmt "$CRAFT_PART_INSTALL"/usr/bin/cargo-fmt
       ln -s /usr/lib/rust-1.93/bin/rustfmt "$CRAFT_PART_INSTALL"/usr/bin/rustfmt
       #ln -s /usr/lib/rust-1.93/bin/cargo-miri "$CRAFT_PART_INSTALL"/usr/bin/cargo-miri
+      #ln -s /usr/lib/rust-1.93/bin/rustdoc "$CRAFT_PART_INSTALL"/usr/bin/rustdoc
 
 
   deb-security-manifest:
