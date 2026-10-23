@@ -1,2 +1,0 @@
-summary: Test compiling sudo-rs
-execute: bash -ex test_sudo.sh

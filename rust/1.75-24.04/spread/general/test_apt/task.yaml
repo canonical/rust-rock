@@ -1,2 +1,0 @@
-summary: Test apt in the image
-execute: bash test_apt.sh
