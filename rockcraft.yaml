@@ -25,7 +25,7 @@ description: |
 # license: (MIT OR Apache-2.0) AND GPL-3.0
 
 base: bare
-build-base: devel
+build-base: ubuntu@26.10
 
 platforms:
   amd64:

@@ -1,4 +1,4 @@
-project: rust-rock:devel
+project: rust-rock:1.97-26.10
 
 backends:
   craft:
@@ -30,7 +30,7 @@ suites:
       sudo rockcraft.skopeo \
         --insecure-policy copy \
         "oci-archive:$CRAFT_ARTIFACT" \
-        docker-daemon:rust-rock:devel
+        docker-daemon:rust-rock:1.97-26.10
       
       # Install moreutils package for 'sponge' command
       sudo apt update
@@ -40,7 +40,7 @@ suites:
       mkdir -p "$TMPDIR"
 
     restore: |
-      docker image rm --force rust-rock:devel
+      docker image rm --force rust-rock:1.97-26.10
 
 exclude:
   - .git

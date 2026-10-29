@@ -4,19 +4,19 @@
 # spellchecker: ignore rustc
 
 # cargo
-docker run --rm rust-rock:devel exec cargo --help \
+docker run --rm rust-rock:1.97-26.10 exec cargo --help \
     | sponge | grep -q "Rust's package manager"
-docker run --rm rust-rock:devel exec cargo --version \
+docker run --rm rust-rock:1.97-26.10 exec cargo --version \
     | sponge | grep -q 'cargo 1.97'
 
 # rust
-docker run --rm rust-rock:devel exec rustc --help \
+docker run --rm rust-rock:1.97-26.10 exec rustc --help \
     | sponge | grep -q "Usage: rustc"
-docker run --rm rust-rock:devel exec rustc --version \
+docker run --rm rust-rock:1.97-26.10 exec rustc --version \
     | sponge | grep -q 'rustc 1.97'
 
 # gcc
-docker run --rm rust-rock:devel exec gcc --help \
+docker run --rm rust-rock:1.97-26.10 exec gcc --help \
     | sponge | grep -q "Usage: gcc"
-docker run --rm rust-rock:devel exec gcc --version \
+docker run --rm rust-rock:1.97-26.10 exec gcc --version \
     | sponge | head -n1 | grep -q 'gcc (Ubuntu 15'
