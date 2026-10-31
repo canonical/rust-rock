@@ -1,14 +1,14 @@
 # spellchecker: ignore rustc rockcraft coreutils binutils archiver
 
 name: rust
-version: '1.93'
-summary: Chiseled rust 1.93 rock
+version: '1.97'
+summary: Chiseled rust 1.97 rock
 description: |
     Rust is a modern memory-safe systems programming language focused on
     performance and reliability.
 
-    This image is a chiselled Ubuntu rock based on Ubuntu 26.04. It contains
-    a minimal Rust 1.93 toolchain and Cargo build system which can be used to
+    This image is a chiselled Ubuntu rock based on Ubuntu 26.10. It contains
+    a minimal Rust 1.97 toolchain and Cargo build system which can be used to
     build a wide variety of Rust applications. It also includes a minimal
     GCC toolchain to custom build steps in Cargo builds.
     
@@ -41,7 +41,7 @@ parts:
   rust:
     plugin: nil
     stage-packages:
-      - cargo-1.93_cargo  # includes rustc-1.93
+      - cargo-1.97_cargo  # includes rustc-1.97
       # ar is needed to create static libraries, which cargo sometimes does
       # when building dependencies
       - binutils_archiver
@@ -51,7 +51,7 @@ parts:
       # this is an SDK rock. we really want coreutils
       - coreutils_bins
       # we want the base-files_chisel to generate the chisel manifest, and
-      # base-files_release-info  to indicate that this is a 26.04 rock
+      # base-files_release-info  to indicate that this is a 26.10 rock
       - base-files_chisel
       - base-files_release-info
       # package management, to be able to install additional dependencies if needed 
@@ -59,8 +59,8 @@ parts:
     override-build: |
       # this is not the default rust and cargo for this base, so we just need to
       # create the symlinks for the rust and cargo binaries
-      ln -s cargo-1.93 "$CRAFT_PART_INSTALL"/usr/bin/cargo
-      ln -s rustc-1.93 "$CRAFT_PART_INSTALL"/usr/bin/rustc
+      ln -s cargo-1.97 "$CRAFT_PART_INSTALL"/usr/bin/cargo
+      ln -s rustc-1.97 "$CRAFT_PART_INSTALL"/usr/bin/rustc
 
 
   deb-security-manifest:
